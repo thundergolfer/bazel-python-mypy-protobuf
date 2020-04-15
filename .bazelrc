@@ -1,0 +1,9 @@
+build --verbose_failures
+test --test_output=errors
+
+build --python_path="/usr/local/bin/python3"
+
+# MyPy Aspect
+###############
+build --aspects @mypy_integration//:mypy.bzl%mypy_aspect
+build --output_groups=+mypy

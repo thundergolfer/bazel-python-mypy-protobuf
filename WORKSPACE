@@ -3,11 +3,11 @@ workspace(name="bazel_python_mypy_protobuf")
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
-rules_python_version = "7b222cfdb4e59b9fd2a609e1fbb233e94fdcde7c"
+rules_python_version = "38f86fb55b698c51e8510c807489c9f4e047480e"
 
 http_archive(
     name = "rules_python",
-    sha256 = "d2865e2ce23ee217aaa408ddaa024ca472114a6f250b46159d27de05530c75e3",
+    sha256 = "c911dc70f62f507f3a361cbc21d6e0d502b91254382255309bc60b7a0f48de28",
     strip_prefix = "rules_python-{version}".format(version = rules_python_version),
     url = "https://github.com/bazelbuild/rules_python/archive/{version}.tar.gz".format(version = rules_python_version),
 )
@@ -69,3 +69,26 @@ mypy_integration_deps("//tools/python/typing:mypy_version.txt")
 load("@mypy_integration//repositories:pip_repositories.bzl", mypy_integration_pip_deps = "pip_deps")
 
 mypy_integration_pip_deps()
+
+# Protobuf Support
+
+http_archive(
+    name = "build_stack_rules_proto",
+    urls = ["https://github.com/stackb/rules_proto/archive/b93b544f851fdcd3fc5c3d47aee3b7ca158a8841.tar.gz"],
+    sha256 = "c62f0b442e82a6152fcd5b1c0b7c4028233a9e314078952b6b04253421d56d61",
+    strip_prefix = "rules_proto-b93b544f851fdcd3fc5c3d47aee3b7ca158a8841",
+)
+
+load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
+python_proto_library()
+
+load("@rules_python//python:pip.bzl", "pip_repositories")
+load("@rules_python//python:pip.bzl", "pip3_import")
+
+pip_repositories()
+pip3_import(
+    name="protobuf_py_deps",
+    requirements="@build_stack_rules_proto//python/requirements:protobuf.txt",
+)
+load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
+protobuf_pip_install()
