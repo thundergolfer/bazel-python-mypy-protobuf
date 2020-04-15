@@ -3,6 +3,8 @@ Repro thundergolfer/bazel-mypy-integration issue #15
 
 ### Usage
 
+⚠️ _Note:_ `python` should point to Python3.
+
 `bazel run //demo`
 
 
