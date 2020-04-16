@@ -1,9 +1,9 @@
-from proto import core_api_pb2 as core_api
+from proto import person_pb2 as person_api
 from google.protobuf.json_format import MessageToJson
 
 
 def run():
-    person = core_api.Person()
+    person = person_api.Person()
     person.id = "foo"
     person.name = "bar"
     return MessageToJson(person)
