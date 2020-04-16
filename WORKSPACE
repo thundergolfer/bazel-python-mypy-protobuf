@@ -1,4 +1,4 @@
-workspace(name="bazel_python_mypy_protobuf")
+workspace(name = "bazel_python_mypy_protobuf")
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
@@ -42,13 +42,12 @@ pip_repository(
 
 mypy_integration_version = "0.0.7"
 
-http_archive(
+# git repo for quick iterations
+git_repository(
     name = "mypy_integration",
-    sha256 = "bf7ecd386740328f96c343dca095a63b93df7f86f8d3e1e2e6ff46e400880077",
-    strip_prefix = "bazel-mypy-integration-{version}".format(version = mypy_integration_version),
-    url = "https://github.com/thundergolfer/bazel-mypy-integration/archive/{version}.zip".format(
-        version = mypy_integration_version,
-    ),
+    commit = "943a34f635ff99629f49e3eda1b8ff70fa831b55",
+    shallow_since = "1586997547 -0400",
+    remote = "https://github.com/cemel-jhu/bazel-mypy-integration",
 )
 
 load(
@@ -80,6 +79,7 @@ http_archive(
 )
 
 load("@build_stack_rules_proto//python:deps.bzl", "python_proto_library")
+
 python_proto_library()
 
 load("@rules_python//python:pip.bzl", "pip_repositories")
@@ -87,8 +87,10 @@ load("@rules_python//python:pip.bzl", "pip3_import")
 
 pip_repositories()
 pip3_import(
-    name="protobuf_py_deps",
-    requirements="@build_stack_rules_proto//python/requirements:protobuf.txt",
+    name = "protobuf_py_deps",
+    requirements = "@build_stack_rules_proto//python/requirements:protobuf.txt",
 )
+
 load("@protobuf_py_deps//:requirements.bzl", protobuf_pip_install = "pip_install")
+
 protobuf_pip_install()
