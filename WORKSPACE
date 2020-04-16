@@ -45,8 +45,8 @@ mypy_integration_version = "0.0.7"
 # git repo for quick iterations
 git_repository(
     name = "mypy_integration",
-    commit = "943a34f635ff99629f49e3eda1b8ff70fa831b55",
-    shallow_since = "1586997547 -0400",
+    commit = "fcfaec091b597512a5fb2280a30ff861d725ae6d",
+    shallow_since = "1587001284 -0400",
     remote = "https://github.com/cemel-jhu/bazel-mypy-integration",
 )
 
